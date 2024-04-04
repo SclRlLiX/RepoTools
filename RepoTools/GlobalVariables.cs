@@ -13,25 +13,46 @@ namespace RepoTools
         public static  bool Debug = true;
         public static bool Test = false;
 
-        public static string? SvnArchivePath;
-        public static string? SvnArchiveUrl; 
 
+        public static string GetSvnArchivePath()
+        {
+            string SvnArchivePath; 
 
-
-         if (Debug)
+            if (Debug)
             {
                 SvnArchivePath = @"C:\SVN-Archiv";
-                SvnArchiveUrl = @"https://WORK-VM-W11.cis-test.dcstest.de/svn/Archiv/";
             }
             else if (Test)
             {
                 SvnArchivePath = @"C:\SVN-Archiv-Test";
+            }
+            else
+            {
+                SvnArchivePath = @"C:\SVN-Archiv";
+            }
+
+            return SvnArchivePath;
+        }
+
+        public static string GetSvnArchiveUrl()
+        {
+            string SvnArchiveUrl;
+
+            if (Debug)
+            {
+                SvnArchiveUrl = @"https://WORK-VM-W11.cis-test.dcstest.de/svn/Archiv/";
+            }
+            else if (Test)
+            {
                 SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv-TEST/";
             }
             else
-        {
-            SvnArchivePath = @"C:\SVN-Archiv";
-            SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv/";
+            {
+                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv/";
+            }
+
+            return SvnArchiveUrl;
         }
+
     }
 }
