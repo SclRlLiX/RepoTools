@@ -19,17 +19,17 @@
         <StackPanel Grid.Column="1"  Margin="10" HorizontalAlignment="Center">
             <GroupBox Header="Paket - Optionen">
                 <StackPanel  Margin="10">
-                    <Label x:Name="lblChooseOption" Content="Option wählen:"/>
-                    <ComboBox x:Name="cbChooseOption"/>
+                    <Label x:Name="lblChooseOption" Content="Option wählen:" FontWeight="Bold"/>
+                    <ComboBox x:Name="cbChooseOption" SelectionChanged="cbChooseOption_SelectionChanged"/>
 
                     <Label x:Name="lblChooseFolder" Content="Ordner wählen:"/>
                     <ComboBox x:Name="cbChooseFolder"/>
 
                     <Label x:Name="lblChoosePackage" Content="Paket wählen:"/>
-                    <ComboBox x:Name="cbChoosePackage"/>
+                    <ComboBox x:Name="cbChoosePackage" SelectionChanged="cbChoosePackage_SelectionChanged"/>
 
                     <Label x:Name="lblChoosePackageVersion" Content="Paketversion wählen:"/>
-                    <ComboBox x:Name="cbChoosePackageVersion"/>
+                    <ComboBox x:Name="cbChoosePackageVersion" SelectionChanged="cbChoosePackageVersion_SelectionChanged"/>
                 </StackPanel>
             </GroupBox>
 
