@@ -12,7 +12,7 @@ namespace RepoTools
         public ApplicationError(string ErrorMessage)
         {
             MessageBox.Show(ErrorMessage, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
             return;
         }
     }
