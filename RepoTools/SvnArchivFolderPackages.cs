@@ -10,25 +10,16 @@ using System.Windows;
 
 namespace RepoTools
 {
-    internal class SvnArchivFolderPackages
+    internal static class SvnArchivFolderPackages
     {
-        public ArrayList packageFoldersWithSvnFolder = new ArrayList();
-        public ArrayList packageFoldersWithoutSvnFolder = new ArrayList();
-
-        public ArrayList GetPackagesWithSvnFolder()
+        //Get Packages WITH .svn Folder
+        public static ArrayList GetPackagesWithSvnFolder()
         {
-            string? SvnArchivePath = App.SvnArchivePath;
+            ArrayList packageFoldersWithSvnFolder = [];
 
-            if(string.IsNullOrEmpty(SvnArchivePath))
-            {
-                string errorMessage = "Der Ordner [" + SvnArchivePath + "] existiert nicht. \nDie Anwendung wird beendet.";
-                _ = new ApplicationError(ErrorMessage: errorMessage);
-                return packageFoldersWithSvnFolder;
-            }
+            string svnArchivePath = GlobalVariables.GetSvnArchivePath();
                 
-
-            Debug.WriteLine("GetPackagesWithSvnFolder");
-            string[] packageFolders = Directory.GetDirectories(SvnArchivePath);
+            string[] packageFolders = Directory.GetDirectories(svnArchivePath);
 
             foreach (string svnFolder in packageFolders)
             {
@@ -41,6 +32,28 @@ namespace RepoTools
             }
 
             return packageFoldersWithSvnFolder;
+        }
+
+        //Get Packages WITHOUT .svn Folder
+        public static ArrayList GetPackagesWithoutSvnFolder()
+        {
+            ArrayList packageFoldersWithoutSvnFolder = [];
+
+            string svnArchivePath = GlobalVariables.GetSvnArchivePath();
+
+            string[] packageFolders = Directory.GetDirectories(svnArchivePath);
+
+            foreach (string svnFolder in packageFolders)
+            {
+                if (!(Directory.Exists(svnFolder + @"\.svn")))
+                {
+                    //Only save Package Name and not full Path
+                    string packageName = svnFolder.Split("\\").Last();
+                    packageFoldersWithoutSvnFolder.Add(packageName);
+                }
+            }
+
+            return packageFoldersWithoutSvnFolder;
         }
     }
 }
