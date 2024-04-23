@@ -9,4 +9,24 @@
     <StartupObject>RepoTools.App</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Icons\browser_32.png" />
+    <None Remove="Icons\checkin_32.png" />
+    <None Remove="Icons\checkout_32.png" />
+    <None Remove="Icons\Dataport-Logo.png" />
+    <None Remove="Icons\delete_32.png" />
+    <None Remove="Icons\patch_32.png" />
+    <None Remove="Icons\tutorial_32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\browser_32.png" />
+    <Resource Include="Icons\checkin_32.png" />
+    <Resource Include="Icons\checkout_32.png" />
+    <Resource Include="Icons\Dataport-Logo.png" />
+    <Resource Include="Icons\delete_32.png" />
+    <Resource Include="Icons\patch_32.png" />
+    <Resource Include="Icons\tutorial_32.png" />
+  </ItemGroup>
+
 </Project>

@@ -10,13 +10,61 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.20*"/>
-            <ColumnDefinition Width="0.40*"/>
-            <ColumnDefinition Width="0.40*"/>
+            <ColumnDefinition Width="0.80*"/>
+            <!--<ColumnDefinition Width="0.40*"/>
+            <ColumnDefinition Width="0.40*"/>-->
         </Grid.ColumnDefinitions>
 
-        <Rectangle Grid.Column="0" Fill="LightGray" />
+        <Grid Grid.Column="0" Background="#e0e8f8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*" />
+                <RowDefinition Height="0.2*" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="1"  Margin="10" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="0" Background="#e0e8f8"  Margin="10">
+                <Image Source="\Icons\Dataport-Logo.png" />
+                <Label Content="Repository-Toolkit" Width="105" HorizontalAlignment="Center" Foreground="#54616e" FontSize="12" FontStyle="Italic" Margin="0,0,0,25"/>
+                <Button x:Name="btnCheckout" Click="btnCheckout_Click" Style="{StaticResource SidebarButton}" >
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lblBtnCheckout" Content="Paket-Checkout" Width="120"/>
+                        <Image Source="\Icons\checkout_32.png" Height="32" Width="32"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnCheckin" Click="btnCheckin_Click" Style="{StaticResource SidebarButton}" >
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lblBtnCheckin" Content="Paket-Checkin" Width="120"/>
+                        <Image Source="\Icons\checkin_32.png" Height="32" Width="32"/>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+
+
+            <Grid Grid.Row="1" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="icon1" Style="{StaticResource SidebarButton}" Grid.Column="0">
+                    <Image Source="\Icons\browser_32.png" Height="32" Width="32"/>
+                </Button>
+                <Button x:Name="icon2" Style="{StaticResource SidebarButton}" Grid.Column="1">
+                    <Image Source="\Icons\tutorial_32.png" Height="32" Width="32"/>
+                </Button>
+                <Button x:Name="icon3" Style="{StaticResource SidebarButton}" Grid.Column="2">
+                    <Image Source="\Icons\patch_32.png" Height="32" Width="32"/>
+                </Button>
+            </Grid>
+        </Grid>
+
+        
+
+        <ContentControl x:Name="CC" Grid.Column="1"/>
+
+        <!--<StackPanel Grid.Column="1"  Margin="10" HorizontalAlignment="Center">
             <GroupBox Header="Paket - Optionen">
                 <StackPanel  Margin="10">
                     <Label x:Name="lblChooseOption" Content="Option wählen:" FontWeight="Bold"/>
@@ -63,7 +111,7 @@
             </GroupBox>
 
             <Button x:Name="btnSubmit" Content="CHECK IN" Margin="0,20,0,0" Style="{StaticResource SubmitButton}"/>
-        </StackPanel>
+        </StackPanel>-->
 
     </Grid>
 </Window>
