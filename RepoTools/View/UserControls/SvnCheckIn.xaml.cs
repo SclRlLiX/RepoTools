@@ -1,5 +1,8 @@
 ﻿using System.Collections;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace RepoTools.View.UserControls
@@ -28,6 +31,7 @@ namespace RepoTools.View.UserControls
             string[] options = [option1, option2, option3];
             cbChooseOption.ItemsSource = options;
 
+
             // Disable all other fields
             cbChooseFolder.IsEnabled = false;
             cbChoosePackage.IsEnabled = false;
@@ -38,6 +42,7 @@ namespace RepoTools.View.UserControls
             cbxStvmv.IsEnabled = false;
             cbxSccm.IsEnabled = false;
             tbxOrderId.IsEnabled = false;
+            cbxNoOrderId.IsEnabled = false;
             tbxRemark.IsEnabled = false;
             tbxSoftwareVersion.IsEnabled = false;
             cbxAddToMail.IsEnabled = false;
@@ -45,7 +50,11 @@ namespace RepoTools.View.UserControls
             btnSubmit.IsEnabled = false;
 
             //Reset ChooseFolder field
-            cbChooseFolder.ItemsSource = null;
+            cbChooseFolder.ItemsSource= null; 
+            cbChooseFolder.Items.Clear();
+            //Fill Combo Box with Repo Folders
+            cbChooseFolder.ItemsSource = RepoFolders.GetRepoFolders();
+
 
             //Reset ChoosePackage field
             lblChoosePackage.Content = "Paket wählen";
@@ -56,8 +65,133 @@ namespace RepoTools.View.UserControls
             lblChoosePackageVersion.Content = "Paketversion wählen:";
             lblChoosePackageVersion.Foreground = Brushes.Black;
             cbChoosePackageVersion.ItemsSource = null;
+
+            //Set DCSENTW Checkbox 
+            cbxDcsEntw.IsChecked = true; 
         }
 
+        private SvnCheckInObject GetAndValidateData()
+        {
+            SvnCheckInObject svnCheckInObject = new();
+
+            //cbChooseOption
+            if (String.IsNullOrEmpty(cbChooseOption.Text.ToString()))
+            {
+                lblChooseOption.Content = "Bitte Option wählen";
+                lblChooseOption.Foreground = Brushes.Red;
+                lblChooseOption.FontWeight = FontWeights.Bold;
+                svnCheckInObject.ValidationError = true; 
+            }
+            else
+            {
+                lblChooseOption.Content = "Option wählen:";
+                lblChooseOption.Foreground = Brushes.Black;
+                lblChooseOption.FontWeight = FontWeights.Bold;
+
+                svnCheckInObject.ChooseOption = cbChooseOption.SelectedIndex;
+
+            }
+
+            //cbChooseFolder
+            if (String.IsNullOrEmpty(cbChooseFolder.Text.ToString()))
+            {
+                lblChooseFolder.Content = "Bitte Ordner wählen:";
+                lblChooseFolder.Foreground = Brushes.Red;
+                svnCheckInObject.ValidationError = true;
+            }
+            else
+            {
+                lblChooseFolder.Content = "Ordner wählen:";
+                lblChooseFolder.Foreground = Brushes.Black;
+
+                svnCheckInObject.RepoFolder = cbChooseFolder.Text.ToString();
+            }
+
+            //cbChoosePackage
+            if (String.IsNullOrEmpty(cbChoosePackage.Text.ToString()))
+            {
+                lblChoosePackage.Content = "Bitte Paket wählen:";
+                lblChoosePackage.Foreground = Brushes.Red;
+                svnCheckInObject.ValidationError = true;
+            }
+            else
+            {
+                lblChoosePackage.Content = "Paket wählen:";
+                lblChoosePackage.Foreground = Brushes.Black;
+
+                svnCheckInObject.PackageName = cbChoosePackage.Text.ToString();
+            }
+
+            //cbChoosePackageVersion
+            if (String.IsNullOrEmpty(cbChoosePackageVersion.Text.ToString()))
+            {
+                lblChoosePackageVersion.Content = "Bitte Paketversion wählen:";
+                lblChoosePackageVersion.Foreground = Brushes.Red;
+                svnCheckInObject.ValidationError = true;
+            }
+            else
+            {
+                lblChoosePackageVersion.Content = "Ordner Paketversion:";
+                lblChoosePackageVersion.Foreground = Brushes.Black;
+
+                svnCheckInObject.PackageVersion = cbChoosePackageVersion.Text.ToString();
+            }
+
+            //Environments
+            if(cbxDcsEntw.IsChecked == false && cbxDcsTest.IsChecked == false && cbxDcsProd.IsChecked == false && cbxStvmv.IsChecked == false && cbxSccm.IsChecked == false)
+            {
+                string warningMessage = "Es muss mindestens eine Umgebung ausgewählt werden.";
+                _ = new ApplicationWarning(WarningMessage: warningMessage);
+                svnCheckInObject.ValidationError = true; 
+            }
+            else
+            {
+                svnCheckInObject.DcsEntw = cbxDcsEntw.IsChecked;
+                svnCheckInObject.DcsTest = cbxDcsTest.IsChecked;
+                svnCheckInObject.DcsProd = cbxDcsProd.IsChecked;
+                svnCheckInObject.Stvmv = cbxStvmv.IsChecked;
+                svnCheckInObject.Sccm = cbxSccm.IsChecked;
+            }
+
+            //tbxOrderId
+            if (String.IsNullOrEmpty(tbxOrderId.Text.ToString()))
+            {
+                lblOrderId.Content = "Auftrag oder INC angeben";
+                lblOrderId.Foreground = Brushes.Red;
+                svnCheckInObject.ValidationError = true;
+            }
+            else
+            {
+                lblOrderId.Content = "Auftragsnummer / INC";
+                lblOrderId.Foreground = Brushes.Black;
+
+                svnCheckInObject.OrderId = tbxOrderId.Text.ToString();
+            }
+
+            //tbxRemark
+            if (String.IsNullOrEmpty(tbxRemark.Text.ToString()))
+            {
+                lblRemark.Content = "Bemerkung angeben";
+                lblRemark.Foreground = Brushes.Red;
+                svnCheckInObject.ValidationError = true;
+            }
+            else
+            {
+                lblRemark.Content = "Bemerkung";
+                lblRemark.Foreground = Brushes.Black;
+
+                svnCheckInObject.PackageDescription = tbxRemark.Text.ToString();
+            }
+
+            //tbxSoftwareVersion
+            svnCheckInObject.SoftwareVersion = tbxSoftwareVersion.Text.ToString();
+
+            //cbxAddToMail
+            svnCheckInObject.AddToMail = cbxAddToMail.IsChecked;
+
+
+            return svnCheckInObject;
+        }
 
         //cbChooseOption 
         private void cbChooseOption_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,9 +199,12 @@ namespace RepoTools.View.UserControls
             //Load Default Values
             DefaultValues();
 
+           
+
             //Get Packages from SVN-Archiv Folder 
             ArrayList packageFoldersWithoutSvnFolder = SvnArchivFolderPackages.GetPackagesWithoutSvnFolder();
             ArrayList packageFoldersWithSvnFolder = SvnArchivFolderPackages.GetPackagesWithSvnFolder();
+
 
             //Display Packages that already exist in SVN Repo
             if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
@@ -75,9 +212,6 @@ namespace RepoTools.View.UserControls
                 // Enable - Disable fields
                 cbChooseFolder.IsEnabled = false;
                 cbChoosePackage.IsEnabled = true;
-
-                //Clear cbChooseFolder
-                cbChooseFolder.ItemsSource = null;
 
                 //Display Packages from SVN Archiv Folder (with .svn Folder)
                 if (packageFoldersWithSvnFolder.Count > 0)
@@ -102,8 +236,7 @@ namespace RepoTools.View.UserControls
                 cbChooseFolder.IsEnabled = true;
                 cbChoosePackage.IsEnabled = true;
 
-                //Display all Repo Folders
-                cbChooseFolder.ItemsSource = RepoFolders.GetRepoFolders();
+                
 
                 //Display Packages from SVN Archiv Folder (without .svn Folder)
                 if (packageFoldersWithoutSvnFolder.Count > 0)
@@ -119,8 +252,6 @@ namespace RepoTools.View.UserControls
                     lblChoosePackage.Foreground = Brushes.Red;
                 }
             }
-
-
 
         }
 
@@ -144,6 +275,28 @@ namespace RepoTools.View.UserControls
                     lblChoosePackageVersion.Foreground = Brushes.Red;
                 }
 
+                //Get Repo Folder from URL if Package has .svn Folder 
+                if(!(cbChooseFolder.IsEnabled))
+                {
+                    //Get current URL and set Folder
+                    string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + cbChoosePackage.SelectedItem.ToString();
+                    string arguments = "info --show-item url .";
+                    SvnProcessObject svnProcessObject = SvnProcess.StartSvnProcess(workingDir, arguments);
+
+                    if (svnProcessObject.StandardOutput != null) 
+                    {
+                        string url = svnProcessObject.StandardOutput.Split("/")[^2];
+                        if(!(cbChooseFolder.Items.Contains(url)))
+                        {
+                            cbChooseFolder.Items.Clear();
+                            cbChooseFolder.Items.Add(url);
+                        }
+                        cbChooseFolder.Text = url;
+                        Debug.WriteLine("URL " + url);
+                    }
+
+                    Debug.WriteLine(svnProcessObject.StandardOutput);
+                }
             }
 
         }
@@ -160,13 +313,36 @@ namespace RepoTools.View.UserControls
                 cbxStvmv.IsEnabled = true;
                 cbxSccm.IsEnabled = true;
                 tbxOrderId.IsEnabled = true;
+                cbxNoOrderId.IsEnabled = true;
                 tbxRemark.IsEnabled = true;
                 tbxSoftwareVersion.IsEnabled = true;
                 cbxAddToMail.IsEnabled = true;
                 btnCancel.IsEnabled = true;
                 btnSubmit.IsEnabled = true;
             }
+        }
 
+        // Submit Form
+        private void btnSubmit_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SvnCheckInObject svnCheckInObject = GetAndValidateData();
+
+            ReadMe readMe = new();
+            readMe.SvnCheckInObject = svnCheckInObject;
+            readMe.CreateAndSaveReadme();
+        }
+
+
+        private void cbxNoOrderId_Checked(object sender, RoutedEventArgs e)
+        {
+            tbxOrderId.Text = "Keine";
+            tbxOrderId.IsEnabled= false;
+        }
+
+        private void cbxNoOrderId_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbxOrderId.Text = "";
+            tbxOrderId.IsEnabled = true; 
         }
     }
 }
