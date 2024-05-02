@@ -41,7 +41,16 @@
         <Setter Property="Background" Value="#e0e8f8" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
     </Style>
+
+    <Style TargetType="Button" x:Key="SidebarButtonBottom">
+        <Setter Property="Height" Value="50" />
+        <Setter Property="BorderBrush" Value="#e0e8f8" />
+        <Setter Property="Foreground" Value="#54616e" />
+        <Setter Property="Background" Value="#e0e8f8" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
 
 </ResourceDictionary>
