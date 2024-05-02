@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <StartupObject>RepoTools.App</StartupObject>
+    <ApplicationIcon>tortoise_rg.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="tortoise_rg.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Icons\browser_32.png" />
     <Resource Include="Icons\checkin_32.png" />
     <Resource Include="Icons\checkout_32.png" />
@@ -27,6 +32,21 @@
     <Resource Include="Icons\delete_32.png" />
     <Resource Include="Icons\patch_32.png" />
     <Resource Include="Icons\tutorial_32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
