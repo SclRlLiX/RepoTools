@@ -28,8 +28,8 @@ namespace RepoTools
 
             if (!(Directory.Exists(svnArchivePackagePath)))
             {
-                string errorMessage = "Der Ordner [" + svnArchivePackagePath + "] existiert nicht.";
-                _ = new ApplicationWarning(WarningMessage: errorMessage);
+                string warningMessage = "Der Ordner [" + svnArchivePackagePath + "] existiert nicht.";
+                _ = new ApplicationWarning(WarningMessage: warningMessage);
                 return svnArchivFolderPackageVersions;
             }
 
