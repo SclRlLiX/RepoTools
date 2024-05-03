@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -141,16 +142,17 @@ namespace RepoTools.View.UserControls
             if(cbxDcsEntw.IsChecked == false && cbxDcsTest.IsChecked == false && cbxDcsProd.IsChecked == false && cbxStvmv.IsChecked == false && cbxSccm.IsChecked == false)
             {
                 string warningMessage = "Es muss mindestens eine Umgebung ausgewählt werden.";
-                _ = new ApplicationWarning(WarningMessage: warningMessage);
+                ApplicationWarning.ShowApplicationWarning(warningMessage);
                 svnCheckInObject.ValidationError = true; 
             }
             else
             {
-                svnCheckInObject.DcsEntw = cbxDcsEntw.IsChecked;
-                svnCheckInObject.DcsTest = cbxDcsTest.IsChecked;
-                svnCheckInObject.DcsProd = cbxDcsProd.IsChecked;
-                svnCheckInObject.Stvmv = cbxStvmv.IsChecked;
-                svnCheckInObject.Sccm = cbxSccm.IsChecked;
+                //Convert bool? to bool
+                svnCheckInObject.DcsEntw = (bool)(cbxDcsEntw.IsChecked.HasValue ? cbxDcsEntw.IsChecked : false);
+                svnCheckInObject.DcsTest = (bool)(cbxDcsTest.IsChecked.HasValue ? cbxDcsTest.IsChecked : false);
+                svnCheckInObject.DcsProd = (bool)(cbxDcsProd.IsChecked.HasValue ? cbxDcsProd.IsChecked : false);
+                svnCheckInObject.Stvmv = (bool)(cbxStvmv.IsChecked.HasValue ? cbxStvmv.IsChecked : false);
+                svnCheckInObject.Sccm = (bool)(cbxSccm.IsChecked.HasValue ? cbxSccm.IsChecked : false);
             }
 
             //tbxOrderId
@@ -184,8 +186,11 @@ namespace RepoTools.View.UserControls
             }
 
             //tbxSoftwareVersion
-            svnCheckInObject.SoftwareVersion = tbxSoftwareVersion.Text.ToString();
-
+            if (!(String.IsNullOrEmpty(tbxSoftwareVersion.Text.ToString())))
+            {
+                svnCheckInObject.SoftwareVersion = tbxSoftwareVersion.Text.ToString();
+            }
+                
             //cbxAddToMail
             svnCheckInObject.AddToMail = cbxAddToMail.IsChecked;
 
@@ -322,27 +327,48 @@ namespace RepoTools.View.UserControls
             }
         }
 
+        //Events for checkbox cbxNoOrderId
+        private void cbxNoOrderId_Checked(object sender, RoutedEventArgs e)
+        {
+            tbxOrderId.Text = GlobalVariables.EmptyTextboxText;
+            tbxOrderId.IsEnabled= false;
+        }
+        private void cbxNoOrderId_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbxOrderId.Text = "";
+            tbxOrderId.IsEnabled = true; 
+        }
+
+
         // Submit Form
         private void btnSubmit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             SvnCheckInObject svnCheckInObject = GetAndValidateData();
 
+            //Check if Path to Package Version exists 
+            string pathToCurrentPackageVersion = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName + @"\" + svnCheckInObject.PackageVersion;
+            if(!(Directory.Exists(pathToCurrentPackageVersion)))
+            {
+                string warningMessage = "Der Ordner [" + pathToCurrentPackageVersion + "] existiert nicht.";
+                ApplicationWarning.ShowApplicationWarning(warningMessage);
+            }
+
+            //Create new ReadMe Object 
             ReadMe readMe = new();
             readMe.SvnCheckInObject = svnCheckInObject;
-            readMe.CreateAndSaveReadme();
-        }
+            readMe.PathToPackageVersion = pathToCurrentPackageVersion;
 
-
-        private void cbxNoOrderId_Checked(object sender, RoutedEventArgs e)
-        {
-            tbxOrderId.Text = "Keine";
-            tbxOrderId.IsEnabled= false;
-        }
-
-        private void cbxNoOrderId_Unchecked(object sender, RoutedEventArgs e)
-        {
-            tbxOrderId.Text = "";
-            tbxOrderId.IsEnabled = true; 
+            //Only continue if success is returned 
+            //Write readme file
+            if(!(readMe.CreateAndSaveReadme()))
+            {
+                return; 
+            }
+            //Write Json file 
+            if (!(readMe.CreateAndSaveJson()))
+            {
+                return;
+            }
         }
     }
 }
