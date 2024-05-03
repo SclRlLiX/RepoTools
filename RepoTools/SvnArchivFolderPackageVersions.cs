@@ -29,7 +29,7 @@ namespace RepoTools
             if (!(Directory.Exists(svnArchivePackagePath)))
             {
                 string warningMessage = "Der Ordner [" + svnArchivePackagePath + "] existiert nicht.";
-                _ = new ApplicationWarning(WarningMessage: warningMessage);
+                ApplicationWarning.ShowApplicationWarning(warningMessage);
                 return svnArchivFolderPackageVersions;
             }
 
