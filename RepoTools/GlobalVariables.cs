@@ -13,6 +13,12 @@ namespace RepoTools
         public static  bool Debug = true;
         public static bool Test = false;
 
+        //Default text for empty Text Boxes 
+        readonly public static string EmptyTextboxText = "Keine Angabe";
+
+        //Default file name for JSON 
+        readonly public static string JsonFileName = "package_info.json";
+
 
         public static string GetSvnArchivePath()
         {
