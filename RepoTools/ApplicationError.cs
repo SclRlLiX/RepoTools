@@ -7,9 +7,9 @@ using System.Windows;
 
 namespace RepoTools
 {
-    internal class ApplicationError
+    internal static class ApplicationError
     {
-        public ApplicationError(string ErrorMessage)
+        public static void ShowApplicationError(string ErrorMessage)
         {
             MessageBox.Show(ErrorMessage, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();

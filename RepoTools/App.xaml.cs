@@ -21,7 +21,7 @@ namespace RepoTools
             if (String.IsNullOrEmpty(SvnArchivePath))
             {
                 string errorMessage = "Die Variable SvnArchivePath ist leer. \nDie Anwendung wird beendet.";
-                _ = new ApplicationError(ErrorMessage: errorMessage);
+                ApplicationError.ShowApplicationError(errorMessage);
                 return;
             }
 
@@ -30,7 +30,7 @@ namespace RepoTools
             if (!(Directory.Exists(SvnArchivePath)))
             {
                 string errorMessage = "Der Ordner [" + SvnArchivePath + "] existiert nicht. \nDie Anwendung wird beendet.";
-                _ = new ApplicationError(ErrorMessage: errorMessage);
+                ApplicationError.ShowApplicationError(errorMessage);
                 return;
             }
         }

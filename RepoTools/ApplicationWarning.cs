@@ -7,9 +7,9 @@ using System.Windows;
 
 namespace RepoTools
 {
-    internal class ApplicationWarning
+    internal static class ApplicationWarning
     {
-        public ApplicationWarning(string WarningMessage) 
+        public static void ShowApplicationWarning(string WarningMessage) 
         {
             MessageBox.Show(WarningMessage, "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
