@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -15,7 +17,7 @@ namespace RepoTools.View.UserControls
     {
         private readonly string option1 = "Neue Paketversion";
         private readonly string option2 = "Neues Paket";
-        private readonly string option3 = "Bestehende Paketversion anpassen";
+        private readonly string option3 = "Paketversion anpassen";
 
         public SvnCheckIn()
         {
@@ -56,7 +58,6 @@ namespace RepoTools.View.UserControls
             //Fill Combo Box with Repo Folders
             cbChooseFolder.ItemsSource = RepoFolders.GetRepoFolders();
 
-
             //Reset ChoosePackage field
             lblChoosePackage.Content = "Paket wählen";
             lblChoosePackage.Foreground = Brushes.Black;
@@ -67,8 +68,17 @@ namespace RepoTools.View.UserControls
             lblChoosePackageVersion.Foreground = Brushes.Black;
             cbChoosePackageVersion.ItemsSource = null;
 
-            //Set DCSENTW Checkbox 
+            //Reset other Fields
             cbxDcsEntw.IsChecked = true; 
+            cbxDcsTest.IsChecked = false;
+            cbxDcsProd.IsChecked = false;
+            cbxStvmv.IsChecked = false;
+            cbxSccm.IsChecked = false;
+
+            tbxOrderId.Text = "";
+            tbxRemark.Text = "";
+            tbxSoftwareVersion.Text = "";
+            cbxAddToMail.IsChecked = false;
         }
 
         private SvnCheckInObject GetAndValidateData()
@@ -204,7 +214,6 @@ namespace RepoTools.View.UserControls
             //Load Default Values
             DefaultValues();
 
-           
 
             //Get Packages from SVN-Archiv Folder 
             ArrayList packageFoldersWithoutSvnFolder = SvnArchivFolderPackages.GetPackagesWithoutSvnFolder();
@@ -325,6 +334,33 @@ namespace RepoTools.View.UserControls
                 btnCancel.IsEnabled = true;
                 btnSubmit.IsEnabled = true;
             }
+
+            //Check if JSON exists 
+            if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
+            {
+                string jsonFilePath = $@"{GlobalVariables.GetSvnArchivePath()}\{cbChoosePackage.SelectedItem}\{cbChoosePackageVersion.SelectedItem}\{GlobalVariables.JsonFileName}";
+                if(File.Exists(jsonFilePath))
+                {
+                    string jsonString = File.ReadAllText(jsonFilePath);
+                    SvnCheckInObject? svnCheckInObject = JsonSerializer.Deserialize<SvnCheckInObject>(jsonString);
+                    if(svnCheckInObject != null)
+                    {
+                        //Fill form fields
+                        cbxDcsEntw.IsChecked = svnCheckInObject.DcsEntw;
+                        cbxDcsTest.IsChecked = svnCheckInObject.DcsTest;
+                        cbxDcsProd.IsChecked = svnCheckInObject.DcsProd;
+                        cbxStvmv.IsChecked = svnCheckInObject.Stvmv;
+                        cbxSccm.IsChecked = svnCheckInObject.Sccm;
+
+                        tbxOrderId.Text = svnCheckInObject.OrderId;
+                        tbxRemark.Text = svnCheckInObject.PackageDescription;
+                        tbxSoftwareVersion.Text = svnCheckInObject.SoftwareVersion;
+                        cbxAddToMail.IsChecked = svnCheckInObject.AddToMail;
+                    }
+
+                    
+                }
+            }
         }
 
         //Events for checkbox cbxNoOrderId
@@ -345,7 +381,7 @@ namespace RepoTools.View.UserControls
         {
             SvnCheckInObject svnCheckInObject = GetAndValidateData();
 
-            //Check if Path to Package Version exists 
+            //Check if Path to Package Version exists
             string pathToCurrentPackageVersion = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName + @"\" + svnCheckInObject.PackageVersion;
             if(!(Directory.Exists(pathToCurrentPackageVersion)))
             {
@@ -353,13 +389,17 @@ namespace RepoTools.View.UserControls
                 ApplicationWarning.ShowApplicationWarning(warningMessage);
             }
 
-            //Create new ReadMe Object 
+
+            /*
+            *  CREATE README AND JSON  
+            */
             ReadMe readMe = new();
             readMe.SvnCheckInObject = svnCheckInObject;
             readMe.PathToPackageVersion = pathToCurrentPackageVersion;
 
-            //Only continue if success is returned 
+            //Only continue if success is returned
             //Write readme file
+            //Error handling is done inside methods
             if(!(readMe.CreateAndSaveReadme()))
             {
                 return; 
@@ -369,6 +409,45 @@ namespace RepoTools.View.UserControls
             {
                 return;
             }
+
+
+            /*
+            *  ZIP .BUILDMSI Folder   
+            */
+            string buildmsiFilePath = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName + @"\" + svnCheckInObject.PackageVersion + ".buildmsi";
+            if(Directory.Exists(buildmsiFilePath))
+            {
+                string zipFilePath = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName + @"\" + svnCheckInObject.PackageVersion + ".buildmsi.zip";
+
+                // Check if the ZIP file already exists and delete it if it does
+                if (File.Exists(zipFilePath))
+                {
+                    File.Delete(zipFilePath);
+                }
+
+                // Create the ZIP file from the folder
+                ZipFile.CreateFromDirectory(buildmsiFilePath, zipFilePath);
+
+                //Delete original .buildmsi directory
+                Directory.Delete(buildmsiFilePath, recursive: true);
+
+                if(Directory.Exists(buildmsiFilePath))
+                {
+                    string warningMessage = "Der Ordner [" + buildmsiFilePath + "] existiert noch. Beim zippen und löschen des .buildmsi Ordners ist ein Fehler aufgetreten. Das Einlagern wurde abgebrochen.";
+                    ApplicationWarning.ShowApplicationWarning(warningMessage);
+                    return;
+                }
+
+                if (!(File.Exists(zipFilePath)))
+                {
+                    string warningMessage = "Der Ordner [" + zipFilePath + "] existiert nicht. Beim zippen und löschen des .buildmsi Ordners ist ein Fehler aufgetreten. Das Einlagern wurde abgebrochen.";
+                    ApplicationWarning.ShowApplicationWarning(warningMessage);
+                }
+            }
+
+
+
+
         }
     }
 }

@@ -42,7 +42,7 @@ namespace RepoTools
                 string currentPackageVersion = packageVersion.Split("\\").Last();
 
                 //Check if Folder Matches Regex Pattern (4 Digits) 
-                string pattern = @"\d{4}";
+                string pattern = @"\d{4}$";
                 Match m = Regex.Match(currentPackageVersion, pattern);
                 if (m.Success)
                 {
