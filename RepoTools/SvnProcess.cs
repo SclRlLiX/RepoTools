@@ -43,6 +43,15 @@ namespace RepoTools
             svnProcessObject.ErrorOutput = errorOutput;
             svnProcessObject.ExitCode = process.ExitCode;
 
+            if(svnProcessObject.ExitCode != 0)
+            {
+                string errorMessage = 
+$@"Der SVN Befehl [{Arguments}] konnte nicht ausgeführt werden. Der Befehl wurde im Verzeichnis [{WorkingDirectory}] ausgeführt. {Environment.NewLine}
+ExitCode: {svnProcessObject.ExitCode} {Environment.NewLine}
+ErrorOutput: {svnProcessObject.ErrorOutput}" ;
+                ApplicationError.ShowApplicationError(errorMessage);
+            }
+
             return svnProcessObject;
         }
     }

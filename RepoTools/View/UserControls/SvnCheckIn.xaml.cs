@@ -99,7 +99,14 @@ namespace RepoTools.View.UserControls
                 lblChooseOption.Foreground = Brushes.Black;
                 lblChooseOption.FontWeight = FontWeights.Bold;
 
-                svnCheckInObject.ChooseOption = cbChooseOption.SelectedIndex;
+                if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
+                {
+                    svnCheckInObject.NewPackage = false; 
+                }
+                else
+                {
+                    svnCheckInObject.NewPackage = true;
+                }
 
             }
 
@@ -446,6 +453,67 @@ namespace RepoTools.View.UserControls
             }
 
 
+            /*
+            *  Commit Package to SVN    
+            */
+
+            //Build commit string (set to flase if null) 
+            string commitMessage = $@"{svnCheckInObject.DcsEntw};{svnCheckInObject.DcsTest};{svnCheckInObject.DcsProd};{svnCheckInObject.Stvmv};{svnCheckInObject.Sccm};{svnCheckInObject.OrderId};{svnCheckInObject.PackageDescription};{svnCheckInObject.SoftwareVersion};{svnCheckInObject.RepoFolder};{svnCheckInObject.PackageName};{svnCheckInObject.PackageVersion}";
+            commitMessage = commitMessage.Replace("\"", "'");
+
+            if (cbxAddToMail.IsChecked ?? false)
+            {
+                commitMessage = $@"automail4;{commitMessage}";
+            }
+            else
+            {
+                commitMessage = $@"nomail;{commitMessage}";
+            }
+
+            //Commit Package 
+            if (svnCheckInObject.NewPackage ?? false)
+            {
+                //new Package 
+                string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName;
+                string arguments = $@"import . ""{GlobalVariables.GetSvnArchiveUrl()}/{svnCheckInObject.RepoFolder}/{svnCheckInObject.PackageName}"" -m ""{commitMessage}"" ";
+                SvnProcessObject svnProcessObject = SvnProcess.StartSvnProcess(workingDir, arguments);
+
+                if (svnProcessObject.ExitCode != 0)
+                {
+                    string errorMessage = $@"Das Hinzufügen des Pakets [{svnCheckInObject.PackageName}] ins Repository ist fehlgeschlagen.";
+                    ApplicationError.ShowApplicationError(errorMessage);
+                    return;
+                }
+            }
+            else
+            {
+                //existing Package
+
+                //add new Folders/Files 
+                string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName;
+                string arguments = "add . --force";
+                SvnProcessObject svnAdd = SvnProcess.StartSvnProcess(workingDir, arguments);
+
+                if (svnAdd.ExitCode != 0)
+                {
+                    string errorMessage = $@"Das Hinzufügen der neuen Dateien (svn add) aus dem Paket [{svnCheckInObject.PackageName}] ist fehlgeschlagen.";
+                    ApplicationError.ShowApplicationError(errorMessage);
+                    return;
+                }
+
+                //Commit changes to repo 
+                arguments = $@"commit . -m ""{commitMessage}"" ";
+                SvnProcessObject svnCommit = SvnProcess.StartSvnProcess(workingDir, arguments);
+
+                if (svnCommit.ExitCode != 0)
+                {
+                    string errorMessage = $@"Das Aktualisieren des Pakets [{svnCheckInObject.PackageName}] im Repository ist fehlgeschlagen.";
+                    ApplicationError.ShowApplicationError(errorMessage);
+                    return;
+                }
+            }
+
+            ApplicationSuccess.ShowApplicationSuccess("Das Paket wurde erfolgreich hinzugefügt / aktualisiert.");
 
 
         }

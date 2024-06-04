@@ -8,7 +8,7 @@ namespace RepoTools
 {
     internal class SvnCheckInObject
     {
-        public int? ChooseOption { get; set; }
+        public bool? NewPackage { get; set; }
         public string? RepoFolder { get; set; }
         public string? PackageName { get; set; }
         public string? PackageVersion { get; set; }

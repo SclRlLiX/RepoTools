@@ -46,15 +46,15 @@ namespace RepoTools
 
             if (Debug)
             {
-                SvnArchiveUrl = @"https://WORK-VM-W11.cis-test.dcstest.de/svn/Archiv/";
+                SvnArchiveUrl = @"https://WORK-VM-W11.cis-test.dcstest.de/svn/Archiv";
             }
             else if (Test)
             {
-                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv-TEST/";
+                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv-TEST";
             }
             else
             {
-                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv/";
+                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv";
             }
 
             return SvnArchiveUrl;
