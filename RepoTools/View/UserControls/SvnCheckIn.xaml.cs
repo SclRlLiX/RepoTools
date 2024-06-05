@@ -386,6 +386,7 @@ namespace RepoTools.View.UserControls
         // Submit Form
         private void btnSubmit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+
             SvnCheckInObject svnCheckInObject = GetAndValidateData();
 
             //Check if Path to Package Version exists
@@ -513,8 +514,33 @@ namespace RepoTools.View.UserControls
                 }
             }
 
-            ApplicationSuccess.ShowApplicationSuccess("Das Paket wurde erfolgreich hinzugefügt / aktualisiert.");
+            //Delete Package Folder 
+            string infoMessage =
+$@"Das Paket [{svnCheckInObject.PackageName}] wurde erfolgreich hinzugefügt bzw. aktualisiert. {Environment.NewLine} 
+Soll das Paket [{svnCheckInObject.PackageName}] aus dem Ordner [{GlobalVariables.GetSvnArchivePath()}] entfernt werden?"; 
+            MessageBoxResult result = ApplicationInfoYesNo.GetApplicationInfoYesNo(infoMessage);
 
+            if(result == MessageBoxResult.Yes)
+            {
+                //Delete Package directory via cmd command to circumvent System.UnauthorizedAccessException on .svn folder
+                string deletePackagePath = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName;
+                CmdProcess.StartCmdProcess($@"/c rmdir /s/q {deletePackagePath}");
+
+                if (Directory.Exists(deletePackagePath))
+                {
+                    string warningMessage = "Der Ordner [" + deletePackagePath + "] existiert noch. Beim löschen des Ordners ist ein Fehler aufgetreten. Der Ordner muss manuell gelöscht werden.";
+                    ApplicationWarning.ShowApplicationWarning(warningMessage);
+                }
+                else
+                {
+                    string successMessage = "Der Ordner [" + deletePackagePath + "] wurde erfolgreich entfernt.";
+                    ApplicationSuccess.ShowApplicationSuccess(successMessage);
+                }
+            }
+
+            //Set form default values 
+            DefaultValues();
+            return; 
 
         }
     }
