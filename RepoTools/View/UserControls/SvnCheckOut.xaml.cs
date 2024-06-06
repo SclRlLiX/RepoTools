@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RepoTools.View.UserControls
 {
@@ -23,6 +13,29 @@ namespace RepoTools.View.UserControls
         public SvnCheckOut()
         {
             InitializeComponent();
+        }
+
+        private void btnCheckOut_Click(object sender, RoutedEventArgs e)
+        {
+            if(!(File.Exists(@"C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe")))
+            {
+                ApplicationError.ShowApplicationError(@"Die Datei [C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe] existiert nicht. Tortoise Checkout kann nicht aufgerufen werden.");
+                return;
+            }
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo();
+            processStartInfo.FileName = "TortoiseProc.exe";
+            processStartInfo.WorkingDirectory = @"C:\Program Files\TortoiseSVN\bin";
+            processStartInfo.Arguments = $@"c\ /command:checkout /path:""C:\SVN-Archiv"" ";
+            processStartInfo.UseShellExecute = false;
+            processStartInfo.CreateNoWindow = true;
+
+            Process process = new Process();
+            process.StartInfo = processStartInfo;
+
+            process.Start();
+
+            return;
         }
     }
 }

@@ -7,6 +7,12 @@
              mc:Ignorable="d" 
               d:DesignHeight="550" d:DesignWidth="750" Background="White">
     <Grid>
-        <Label Content="SVN Check Out" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.33*"/>
+            <ColumnDefinition Width="0.33*"/>
+            <ColumnDefinition Width="0.33*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="btnCheckOut" Content="CHECK OUT" Click="btnCheckOut_Click" Style="{StaticResource SidebarButton}" Grid.Column="1"/>
     </Grid>
 </UserControl>

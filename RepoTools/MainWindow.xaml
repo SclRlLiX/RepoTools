@@ -24,12 +24,6 @@
             <StackPanel Grid.Row="0" Background="#e0e8f8"  Margin="10">
                 <Image Source="\Icons\Dataport-Logo.png" />
                 <Label Content="Repository-Toolkit" Width="105" HorizontalAlignment="Center" Foreground="#54616e" FontSize="12" FontStyle="Italic" Margin="0,0,0,25"/>
-                <Button x:Name="btnCheckout" Click="btnCheckout_Click" Style="{StaticResource SidebarButton}" >
-                    <StackPanel Orientation="Horizontal">
-                        <Label x:Name="lblBtnCheckout" Content="Paket-Checkout" Width="120"/>
-                        <Image Source="\Icons\checkout_32.png" Height="32" Width="32"/>
-                    </StackPanel>
-                </Button>
 
                 <Button x:Name="btnCheckin" Click="btnCheckin_Click" Style="{StaticResource SidebarButton}" >
                     <StackPanel Orientation="Horizontal">
@@ -37,6 +31,14 @@
                         <Image Source="\Icons\checkin_32.png" Height="32" Width="32"/>
                     </StackPanel>
                 </Button>
+
+                <Button x:Name="btnCheckout" Click="btnCheckout_Click" Style="{StaticResource SidebarButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="lblBtnCheckout" Content="Paket-Checkout" Width="120"/>
+                        <Image Source="\Icons\checkout_32.png" Height="32" Width="32"/>
+                    </StackPanel>
+                </Button>
+
 
             </StackPanel>
 

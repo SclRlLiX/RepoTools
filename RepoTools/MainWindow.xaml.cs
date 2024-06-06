@@ -1,7 +1,7 @@
 ﻿using RepoTools.View.UserControls;
-using System.Collections;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Media;
+using System.IO;
 
 namespace RepoTools
 {
@@ -18,172 +18,48 @@ namespace RepoTools
         {
             InitializeComponent();
 
-            //Open SvnCheckOut Control as default 
-            CC.Content = new SvnCheckOut();
-            lblBtnCheckout.FontWeight = FontWeights.Bold;
-            lblBtnCheckin.FontWeight = FontWeights.Regular;
-
-            ////Set Default values
-            //DefaultValues();
+            //Open SvnCheckIn Control as default 
+            CC.Content = new SvnCheckIn();
+            lblBtnCheckin.FontWeight = FontWeights.Bold;
+            lblBtnCheckout.FontWeight = FontWeights.Regular;
         }
-
-        //private void DefaultValues()
-        //{
-        //    // ###################################################
-        //    // ############### FORM DEFAULT VALUES ############### 
-        //    // ###################################################
-
-
-        //    //Fill ComboBox cbChooseOption
-        //    string[] options = [option1, option2, option3];
-        //    cbChooseOption.ItemsSource = options;
-
-        //    // Disable all other fields
-        //    cbChooseFolder.IsEnabled = false;
-        //    cbChoosePackage.IsEnabled = false;
-        //    cbChoosePackageVersion.IsEnabled = false;
-        //    cbxDcsEntw.IsEnabled = false;
-        //    cbxDcsTest.IsEnabled = false;
-        //    cbxDcsProd.IsEnabled = false;
-        //    cbxStvmv.IsEnabled = false;
-        //    cbxSccm.IsEnabled = false;
-        //    tbxOrderId.IsEnabled = false;
-        //    tbxRemark.IsEnabled = false;
-        //    tbxSoftwareVersion.IsEnabled = false;
-        //    cbxAddToMail.IsEnabled = false;
-        //    btnCancel.IsEnabled = false;
-        //    btnSubmit.IsEnabled = false;
-
-        //    //Reset ChooseFolder field
-        //    cbChooseFolder.ItemsSource = null;
-
-        //    //Reset ChoosePackage field
-        //    lblChoosePackage.Content = "Paket wählen";
-        //    lblChoosePackage.Foreground = Brushes.Black;
-        //    cbChoosePackage.ItemsSource = null;
-
-        //    //Reset ChoosePackageVersion field
-        //    lblChoosePackageVersion.Content = "Paketversion wählen:";
-        //    lblChoosePackageVersion.Foreground = Brushes.Black;
-        //    cbChoosePackageVersion.ItemsSource = null;
-        //}
-
-
-        ////cbChooseOption 
-        //private void cbChooseOption_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        //{
-        //    //Load Default Values
-        //    DefaultValues();
-
-        //    //Get Packages from SVN-Archiv Folder 
-        //    ArrayList packageFoldersWithoutSvnFolder = SvnArchivFolderPackages.GetPackagesWithoutSvnFolder();
-        //    ArrayList packageFoldersWithSvnFolder = SvnArchivFolderPackages.GetPackagesWithSvnFolder();
-
-        //    //Display Packages that already exist in SVN Repo
-        //    if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
-        //    {
-        //        // Enable - Disable fields
-        //        cbChooseFolder.IsEnabled = false;
-        //        cbChoosePackage.IsEnabled = true;
-
-        //        //Clear cbChooseFolder
-        //        cbChooseFolder.ItemsSource = null;
-
-        //        //Display Packages from SVN Archiv Folder (with .svn Folder)
-        //        if (packageFoldersWithSvnFolder.Count > 0)
-        //        {
-        //            cbChoosePackage.ItemsSource = packageFoldersWithSvnFolder;
-
-        //            lblChoosePackage.Content = "Paket wählen";
-        //            lblChoosePackage.Foreground = Brushes.Black;
-        //        }
-        //        else
-        //        {
-        //            lblChoosePackage.Content = "Kein(e) Paket(e) vorhanden! ";
-        //            lblChoosePackage.Foreground = Brushes.Red;
-        //        }
-                
-        //    }
-
-        //    //Display Packages that do not exist in SVN Repo
-        //    if ((string)cbChooseOption.SelectedItem == option2)
-        //    {
-        //        // Enable next fields 
-        //        cbChooseFolder.IsEnabled = true;
-        //        cbChoosePackage.IsEnabled = true;
-
-        //        //Display all Repo Folders
-        //        cbChooseFolder.ItemsSource = RepoFolders.GetRepoFolders();
-
-        //        //Display Packages from SVN Archiv Folder (without .svn Folder)
-        //        if (packageFoldersWithoutSvnFolder.Count > 0)
-        //        {
-        //            cbChoosePackage.ItemsSource = packageFoldersWithoutSvnFolder;
-
-        //            lblChoosePackage.Content = "Paket wählen";
-        //            lblChoosePackage.Foreground = Brushes.Black;
-        //        }
-        //        else
-        //        {
-        //            lblChoosePackage.Content = "Kein(e) Paket(e) vorhanden! ";
-        //            lblChoosePackage.Foreground = Brushes.Red;
-        //        }
-        //    }
-
-
-
-        //}
-
-        ////cbChoosePackage
-        //private void cbChoosePackage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        //{
-        //    if(cbChoosePackage.Items.Count > 0) 
-        //    {
-        //        //Enable and fill PackageVersion Field
-        //        cbChoosePackageVersion.IsEnabled = true;
-        //        ArrayList svnArchivFolderPackageVersions = SvnArchivFolderPackageVersions.GetPackageVersions(cbChoosePackage.SelectedValue.ToString());
-        //        if(svnArchivFolderPackageVersions.Count > 0) 
-        //        {
-        //            cbChoosePackageVersion.ItemsSource = svnArchivFolderPackageVersions;
-        //            lblChoosePackageVersion.Content = "Paketversion wählen:";
-        //            lblChoosePackageVersion.Foreground = Brushes.Black;
-        //        }
-        //        else
-        //        {
-        //            lblChoosePackageVersion.Content = "Keine Version Verfügbar!";
-        //            lblChoosePackageVersion.Foreground = Brushes.Red;
-        //        }
-                
-        //    }
-
-        //}
-
-        ////cbChoosePackageVersion
-        //private void cbChoosePackageVersion_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        //{
-        //    if(cbChoosePackageVersion.Items.Count > 0) 
-        //    {
-        //        //Enable all other fields
-        //        cbxDcsEntw.IsEnabled = true;
-        //        cbxDcsTest.IsEnabled = true;
-        //        cbxDcsProd.IsEnabled = true;
-        //        cbxStvmv.IsEnabled = true;
-        //        cbxSccm.IsEnabled = true;
-        //        tbxOrderId.IsEnabled = true;
-        //        tbxRemark.IsEnabled = true;
-        //        tbxSoftwareVersion.IsEnabled = true;
-        //        cbxAddToMail.IsEnabled = true;
-        //        btnCancel.IsEnabled = true;
-        //        btnSubmit.IsEnabled = true;
-        //    }
-
-        //}
 
         private void btnCheckout_Click(object sender, RoutedEventArgs e)
         {
-            CC.Content = new SvnCheckOut();
-            lblBtnCheckout.FontWeight = FontWeights.Bold;
-            lblBtnCheckin.FontWeight = FontWeights.Regular;
+            //Open Tortoise Checkout 
+            if (!(File.Exists(@"C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe")))
+            {
+                ApplicationError.ShowApplicationError(@"Die Datei [C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe] existiert nicht. Tortoise Checkout kann nicht aufgerufen werden.");
+                return;
+            }
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo();
+            processStartInfo.FileName = "TortoiseProc.exe";
+            processStartInfo.WorkingDirectory = @"C:\Program Files\TortoiseSVN\bin";
+            processStartInfo.Arguments = $@"c\ /command:checkout /path:""C:\SVN-Archiv"" ";
+            processStartInfo.UseShellExecute = false;
+            processStartInfo.CreateNoWindow = true;
+
+            Process process = new Process();
+            process.StartInfo = processStartInfo;
+
+            //Close Form while Tortoise is open
+            process.Start();
+            this.WindowState = WindowState.Minimized;
+
+            //Open file explorer if process completed successfully, otherwise repoen form 
+            process.WaitForExit();
+            if(process.ExitCode != 0)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                Process.Start("explorer.exe", $@"{GlobalVariables.GetSvnArchivePath()}");
+            }
+           
+            return;
+
         }
 
         private void btnCheckin_Click(object sender, RoutedEventArgs e)
