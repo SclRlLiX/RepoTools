@@ -62,11 +62,23 @@ namespace RepoTools
 
         }
 
+        //CheckIn
         private void btnCheckin_Click(object sender, RoutedEventArgs e)
         {
             CC.Content = new SvnCheckIn();
             lblBtnCheckin.FontWeight = FontWeights.Bold;
             lblBtnCheckout.FontWeight = FontWeights.Regular;
+        }
+
+        //Repo Browser
+        private void btnRepoBrowser_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo($@"{GlobalVariables.GetSvnArchiveUrl()}") { UseShellExecute = true });
+        }
+
+        private void btnPatches_Click(object sender, RoutedEventArgs e)
+        {
+            new Patches().Show();
         }
     }
 }

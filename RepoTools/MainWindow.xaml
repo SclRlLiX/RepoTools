@@ -50,13 +50,13 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="icon1" Style="{StaticResource SidebarButtonBottom}" Grid.Column="0">
+                <Button x:Name="btnRepoBrowser" Style="{StaticResource SidebarButtonBottom}" Click="btnRepoBrowser_Click" Grid.Column="0">
                     <Image Source="\Icons\browser_32.png" Height="32" Width="32"/>
                 </Button>
-                <Button x:Name="icon2" Style="{StaticResource SidebarButtonBottom}" Grid.Column="1">
+                <Button x:Name="btnHelp" Style="{StaticResource SidebarButtonBottom}" Grid.Column="1">
                     <Image Source="\Icons\tutorial_32.png" Height="32" Width="32"/>
                 </Button>
-                <Button x:Name="icon3" Style="{StaticResource SidebarButtonBottom}" Grid.Column="2">
+                <Button x:Name="btnPatches" Style="{StaticResource SidebarButtonBottom}" Click="btnPatches_Click" Grid.Column="2">
                     <Image Source="\Icons\patch_32.png" Height="32" Width="32"/>
                 </Button>
             </Grid>
