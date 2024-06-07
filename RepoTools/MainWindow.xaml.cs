@@ -10,9 +10,6 @@ namespace RepoTools
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private readonly string option1 = "Neue Paketversion";
-        //private readonly string option2 = "Neues Paket";
-        //private readonly string option3 = "Bestehende Paketversion anpassen";
 
         public MainWindow()
         {
@@ -76,9 +73,16 @@ namespace RepoTools
             Process.Start(new ProcessStartInfo($@"{GlobalVariables.GetSvnArchiveUrl()}") { UseShellExecute = true });
         }
 
-        private void btnPatches_Click(object sender, RoutedEventArgs e)
+
+        private void btnTutorial_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo($@"{GlobalVariables.GetTutorialPathUrl()}") { UseShellExecute = true });
+        }
+
+            private void btnPatches_Click(object sender, RoutedEventArgs e)
         {
             new Patches().Show();
         }
+
     }
 }
