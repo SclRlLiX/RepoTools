@@ -11,7 +11,13 @@ namespace RepoTools
         public static string GetSanitizedText(string Text)
         {
             string sanitizedText = Text;
-
+            sanitizedText = sanitizedText.Replace("Ä", "AE");
+            sanitizedText = sanitizedText.Replace("Ö", "OE");
+            sanitizedText = sanitizedText.Replace("Ü", "UE");
+            sanitizedText = sanitizedText.Replace("ä", "ae");
+            sanitizedText = sanitizedText.Replace("ö", "oe");
+            sanitizedText = sanitizedText.Replace("ü", "ue");
+            sanitizedText = sanitizedText.Replace("ß", "ss");
             sanitizedText = sanitizedText.Replace("\"", "'");
 
             return sanitizedText;

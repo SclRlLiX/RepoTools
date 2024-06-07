@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -460,7 +461,7 @@ namespace RepoTools.View.UserControls
 
             //Build commit string (set to flase if null) 
             string commitMessage = $@"{svnCheckInObject.DcsEntw};{svnCheckInObject.DcsTest};{svnCheckInObject.DcsProd};{svnCheckInObject.Stvmv};{svnCheckInObject.Sccm};{svnCheckInObject.OrderId};{svnCheckInObject.PackageDescription};{svnCheckInObject.SoftwareVersion};{svnCheckInObject.RepoFolder};{svnCheckInObject.PackageName};{svnCheckInObject.PackageVersion}";
-            commitMessage = commitMessage.Replace("\"", "'");
+            commitMessage = SanitizeText.GetSanitizedText(commitMessage);
 
             if (cbxAddToMail.IsChecked ?? false)
             {
