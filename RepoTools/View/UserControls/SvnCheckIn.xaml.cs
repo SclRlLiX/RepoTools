@@ -22,6 +22,12 @@ namespace RepoTools.View.UserControls
         {
             InitializeComponent();
 
+            //Check if .svn folder exists in C:\SVN-Archiv 
+            if (Directory.Exists($@"{GlobalVariables.GetSvnArchivePath()}\.svn"))
+            {
+                ApplicationWarning.ShowApplicationWarning($@"HINWEIS:{Environment.NewLine}Im Ordner [{GlobalVariables.GetSvnArchivePath()}] existiert ein .svn Ordner. In diesem Verzeichnis sollte sich kein .svn Ordner befinden. {Environment.NewLine}Der .svn Ordner sollte sich im Verzeichnis des Pakets befinden [SVN-Archiv\Paketname\.svn]. Um den .svn Ordner im Datei-Explorer sehen zu können, müssen versteckte Ordner sichtbar gemacht werden.");
+            }
+
             DefaultValues();
         }
 
@@ -80,6 +86,7 @@ namespace RepoTools.View.UserControls
             cbxAddToMail.IsChecked = false;
         }
 
+        //Validate form data 
         private SvnCheckInObject GetAndValidateData()
         {
             SvnCheckInObject svnCheckInObject = new();
@@ -222,7 +229,6 @@ namespace RepoTools.View.UserControls
         {
             //Load Default Values
             DefaultValues();
-
 
             //Get Packages from SVN-Archiv Folder 
             ArrayList packageFoldersWithoutSvnFolder = SvnArchivFolderPackages.GetPackagesWithoutSvnFolder();

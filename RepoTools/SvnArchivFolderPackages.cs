@@ -47,6 +47,12 @@ namespace RepoTools
             {
                 if (!(Directory.Exists(svnFolder + @"\.svn")))
                 {
+                    Debug.WriteLine(svnFolder);
+                    //skip .svn folder
+                    if(svnFolder.Split("\\").Last() == ".svn")
+                    {
+                        continue;
+                    }
                     //Only save Package Name and not full Path
                     string packageName = svnFolder.Split("\\").Last();
                     packageFoldersWithoutSvnFolder.Add(packageName);
