@@ -19,7 +19,8 @@ namespace RepoTools
             sanitizedText = sanitizedText.Replace("ü", "ue");
             sanitizedText = sanitizedText.Replace("ß", "ss");
             sanitizedText = sanitizedText.Replace("\"", "'");
-
+            sanitizedText = sanitizedText.Replace("\n", " ");
+            sanitizedText = sanitizedText.Replace("\r\n", " ");
             return sanitizedText;
         }
     }

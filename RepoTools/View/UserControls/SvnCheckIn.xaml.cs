@@ -198,7 +198,10 @@ namespace RepoTools.View.UserControls
                 lblRemark.Content = "Bemerkung";
                 lblRemark.Foreground = Brushes.Black;
 
-                svnCheckInObject.PackageDescription = tbxRemark.Text.ToString();
+                string packageDescription = tbxRemark.Text.ToString();
+                packageDescription = packageDescription.Replace("\r\n", "  \r\n");
+
+                svnCheckInObject.PackageDescription = packageDescription;
             }
 
             //tbxSoftwareVersion
