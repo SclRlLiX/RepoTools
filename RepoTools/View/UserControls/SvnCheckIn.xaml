@@ -39,7 +39,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <Button x:Name="btnCancel" Content="ABBRECHEN" Margin="0,20,0,0" Style="{StaticResource CancelButton}"/>
+            <Button x:Name="btnCancel" Content="ABBRECHEN" Click="btnCancel_Click" Margin="0,20,0,0" Style="{StaticResource CancelButton}"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1"  Margin="10" HorizontalAlignment="Center">

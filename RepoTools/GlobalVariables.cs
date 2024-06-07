@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepoTools
+﻿namespace RepoTools
 {
     internal static class GlobalVariables
     {
@@ -58,6 +51,27 @@ namespace RepoTools
             }
 
             return SvnArchiveUrl;
+        }
+
+        public static string GetTutorialPathUrl()
+        {
+            string TutorialPathUrl;
+
+            if (Debug)
+            {
+                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+            }
+            else if (Test)
+            {
+                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+            }
+            else
+            {
+                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+            }
+
+            return TutorialPathUrl;
+
         }
 
     }

@@ -5,7 +5,6 @@ using System.IO.Compression;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace RepoTools.View.UserControls
@@ -15,9 +14,8 @@ namespace RepoTools.View.UserControls
     /// </summary>
     public partial class SvnCheckIn : UserControl
     {
-        private readonly string option1 = "Neue Paketversion";
+        private readonly string option1 = "Neue oder bestehende Paketversion";
         private readonly string option2 = "Neues Paket";
-        private readonly string option3 = "Paketversion anpassen";
 
         public SvnCheckIn()
         {
@@ -31,7 +29,7 @@ namespace RepoTools.View.UserControls
         {
 
             //Fill ComboBox cbChooseOption
-            string[] options = [option1, option2, option3];
+            string[] options = [option1, option2];
             cbChooseOption.ItemsSource = options;
 
 
@@ -99,7 +97,7 @@ namespace RepoTools.View.UserControls
                 lblChooseOption.Foreground = Brushes.Black;
                 lblChooseOption.FontWeight = FontWeights.Bold;
 
-                if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
+                if ((string)cbChooseOption.SelectedItem == option1)
                 {
                     svnCheckInObject.NewPackage = false; 
                 }
@@ -228,7 +226,7 @@ namespace RepoTools.View.UserControls
 
 
             //Display Packages that already exist in SVN Repo
-            if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
+            if ((string)cbChooseOption.SelectedItem == option1)
             {
                 // Enable - Disable fields
                 cbChooseFolder.IsEnabled = false;
@@ -340,10 +338,13 @@ namespace RepoTools.View.UserControls
                 cbxAddToMail.IsEnabled = true;
                 btnCancel.IsEnabled = true;
                 btnSubmit.IsEnabled = true;
+
+                //Add to mail on default 
+                cbxAddToMail.IsChecked = true;
             }
 
             //Check if JSON exists 
-            if ((string)cbChooseOption.SelectedItem == option1 || (string)cbChooseOption.SelectedItem == option3)
+            if ((string)cbChooseOption.SelectedItem == option1)
             {
                 string jsonFilePath = $@"{GlobalVariables.GetSvnArchivePath()}\{cbChoosePackage.SelectedItem}\{cbChoosePackageVersion.SelectedItem}\{GlobalVariables.JsonFileName}";
                 if(File.Exists(jsonFilePath))
@@ -362,7 +363,6 @@ namespace RepoTools.View.UserControls
                         tbxOrderId.Text = svnCheckInObject.OrderId;
                         tbxRemark.Text = svnCheckInObject.PackageDescription;
                         tbxSoftwareVersion.Text = svnCheckInObject.SoftwareVersion;
-                        cbxAddToMail.IsChecked = svnCheckInObject.AddToMail;
                     }
 
                     
@@ -492,14 +492,28 @@ namespace RepoTools.View.UserControls
 
                 //add new Folders/Files 
                 string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName;
-                string arguments = "add . --force";
+                string arguments = @$"add .\{svnCheckInObject.PackageVersion} --force";
                 SvnProcessObject svnAdd = SvnProcess.StartSvnProcess(workingDir, arguments);
 
                 if (svnAdd.ExitCode != 0)
                 {
-                    string errorMessage = $@"Das Hinzufügen der neuen Dateien (svn add) aus dem Paket [{svnCheckInObject.PackageName}] ist fehlgeschlagen.";
+                    string errorMessage = $@"Das Hinzufügen der Version [{svnCheckInObject.PackageVersion}] aus dem Paket [{svnCheckInObject.PackageName}] ist fehlgeschlagen.";
                     ApplicationError.ShowApplicationError(errorMessage);
                     return;
+                }
+
+                //add .buildmsi.zip folder 
+                if(File.Exists($@"{GlobalVariables.GetSvnArchivePath()}\{svnCheckInObject.PackageName}\{svnCheckInObject.PackageVersion}.buildmsi.zip"))
+                {
+                    arguments = @$"add .\{svnCheckInObject.PackageVersion}.buildmsi.zip --force";
+                    SvnProcessObject svnAddBuildmsi = SvnProcess.StartSvnProcess(workingDir, arguments);
+
+                    if (svnAddBuildmsi.ExitCode != 0)
+                    {
+                        string errorMessage = $@"Das Hinzufügen der neuen Dateien (svn add) aus dem Paket [{svnCheckInObject.PackageName}] ist fehlgeschlagen.";
+                        ApplicationError.ShowApplicationError(errorMessage);
+                        return;
+                    }
                 }
 
                 //Commit changes to repo 
@@ -542,6 +556,13 @@ Soll das Paket [{svnCheckInObject.PackageName}] aus dem Ordner [{GlobalVariables
             DefaultValues();
             return; 
 
+        }
+
+        //Reset all fields
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultValues();
+            return;
         }
     }
 }

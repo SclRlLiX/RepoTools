@@ -53,7 +53,7 @@
                 <Button x:Name="btnRepoBrowser" Style="{StaticResource SidebarButtonBottom}" Click="btnRepoBrowser_Click" Grid.Column="0">
                     <Image Source="\Icons\browser_32.png" Height="32" Width="32"/>
                 </Button>
-                <Button x:Name="btnHelp" Style="{StaticResource SidebarButtonBottom}" Grid.Column="1">
+                <Button x:Name="btnTutorial" Style="{StaticResource SidebarButtonBottom}" Click="btnTutorial_Click" Grid.Column="1">
                     <Image Source="\Icons\tutorial_32.png" Height="32" Width="32"/>
                 </Button>
                 <Button x:Name="btnPatches" Style="{StaticResource SidebarButtonBottom}" Click="btnPatches_Click" Grid.Column="2">
