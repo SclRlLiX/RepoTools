@@ -28,34 +28,6 @@
                     <TextBlock Text="- Checkout über Tortoise " Style="{StaticResource TextBlockText}"/>
                     <TextBlock Text="- Checkin von Paketen über SVN " Style="{StaticResource TextBlockText}"/>
                 </StackPanel>
-                <!--V 1000-->
-                <StackPanel  Margin="20,10,0,0">
-                    <TextBlock Text="V 1.0.0.0"  Style="{StaticResource TextBlockH2}"/>
-                    <TextBlock Text="- Initiale Version" Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkout über Tortoise " Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkin von Paketen über SVN " Style="{StaticResource TextBlockText}"/>
-                </StackPanel>
-                <!--V 1000-->
-                <StackPanel  Margin="20,10,0,0">
-                    <TextBlock Text="V 1.0.0.0"  Style="{StaticResource TextBlockH2}"/>
-                    <TextBlock Text="- Initiale Version" Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkout über Tortoise " Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkin von Paketen über SVN " Style="{StaticResource TextBlockText}"/>
-                </StackPanel>
-                <!--V 1000-->
-                <StackPanel  Margin="20,10,0,0">
-                    <TextBlock Text="V 1.0.0.0"  Style="{StaticResource TextBlockH2}"/>
-                    <TextBlock Text="- Initiale Version" Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkout über Tortoise " Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkin von Paketen über SVN " Style="{StaticResource TextBlockText}"/>
-                </StackPanel>
-                <!--V 1000-->
-                <StackPanel  Margin="20,10,0,0">
-                    <TextBlock Text="V 1.0.0.0"  Style="{StaticResource TextBlockH2}"/>
-                    <TextBlock Text="- Initiale Version" Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkout über Tortoise " Style="{StaticResource TextBlockText}"/>
-                    <TextBlock Text="- Checkin von Paketen über SVN " Style="{StaticResource TextBlockText}"/>
-                </StackPanel>
 
             </StackPanel>
 

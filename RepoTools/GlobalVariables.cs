@@ -59,15 +59,15 @@
 
             if (Debug)
             {
-                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/RepoTools_Handbuch.pdf";
             }
             else if (Test)
             {
-                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/Handbuch/RepoTools_Handbuch.pdf";
             }
             else
             {
-                TutorialPathUrl = @"https://work-vm-w11.cis-test.dcstest.de/!/#RepoToolsTutorial/view/head/tutorial.pdf";
+                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/Handbuch/RepoTools_Handbuch.pdf";
             }
 
             return TutorialPathUrl;
