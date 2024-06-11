@@ -63,11 +63,11 @@
             }
             else if (Test)
             {
-                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/Handbuch/RepoTools_Handbuch.pdf";
+                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/RepoTools-Anwendung/Handbuch/RepoTools_Handbuch.pdf";
             }
             else
             {
-                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/Handbuch/RepoTools_Handbuch.pdf";
+                TutorialPathUrl = @"https://s7701170.sis-entw.dcsentw.de/!/#RepoTools/view/head/RepoTools-Anwendung/Handbuch/RepoTools_Handbuch.pdf";
             }
 
             return TutorialPathUrl;
