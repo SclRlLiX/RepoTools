@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -353,9 +354,10 @@ namespace RepoTools.View.UserControls
                 cbxAddToMail.IsChecked = true;
             }
 
-            //Check if JSON exists 
+            
             if ((string)cbChooseOption.SelectedItem == option1)
             {
+                //Check if JSON exists 
                 string jsonFilePath = $@"{GlobalVariables.GetSvnArchivePath()}\{cbChoosePackage.SelectedItem}\{cbChoosePackageVersion.SelectedItem}\{GlobalVariables.JsonFileName}";
                 if(File.Exists(jsonFilePath))
                 {
@@ -374,10 +376,18 @@ namespace RepoTools.View.UserControls
                         tbxRemark.Text = svnCheckInObject.PackageDescription;
                         tbxSoftwareVersion.Text = svnCheckInObject.SoftwareVersion;
                     }
+                }
 
-                    
+                //For existing Package, check if repository URL matches that defined in this application 
+                string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + cbChoosePackage.SelectedItem.ToString();
+                string arguments = @"info --show-item repos-root-url";
+                SvnProcessObject svnUrlObject = SvnProcess.StartSvnProcess(workingDir, arguments);
+                if (svnUrlObject.StandardOutput?.Trim() != GlobalVariables.GetSvnArchiveUrl())
+                {
+                    ApplicationWarning.ShowApplicationWarning($@"Das Paket [{cbChoosePackage.SelectedItem.ToString()}] stammt aus dem Repository [{svnUrlObject.StandardOutput}] und stimmt nicht mit dem Repository überein, welches in dieser Anwendung definiert wurde [{GlobalVariables.GetSvnArchiveUrl()}].{Environment.NewLine}Ist das so gewollt? Die Funktion der Anwendung wird dadurch nicht beeinträchtigt.");
                 }
             }
+
         }
 
         //Events for checkbox cbxNoOrderId
@@ -396,7 +406,9 @@ namespace RepoTools.View.UserControls
         // Submit Form
         private void btnSubmit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            /*
+            *  VALIDATION  
+            */
             SvnCheckInObject svnCheckInObject = GetAndValidateData();
 
             //Check if Path to Package Version exists

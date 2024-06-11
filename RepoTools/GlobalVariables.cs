@@ -39,7 +39,7 @@
 
             if (Debug)
             {
-                SvnArchiveUrl = @"https://WORK-VM-W11.cis-test.dcstest.de/svn/Archiv";
+                SvnArchiveUrl = @"https://work-vm-w11.cis-test.dcstest.de/svn/Archiv";
             }
             else if (Test)
             {
