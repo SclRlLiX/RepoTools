@@ -384,7 +384,7 @@ namespace RepoTools.View.UserControls
                 SvnProcessObject svnUrlObject = SvnProcess.StartSvnProcess(workingDir, arguments);
                 if (svnUrlObject.StandardOutput?.Trim() != GlobalVariables.GetSvnArchiveUrl())
                 {
-                    ApplicationWarning.ShowApplicationWarning($@"Das Paket [{cbChoosePackage.SelectedItem.ToString()}] stammt aus dem Repository [{svnUrlObject.StandardOutput}] und stimmt nicht mit dem Repository überein, welches in dieser Anwendung definiert wurde [{GlobalVariables.GetSvnArchiveUrl()}].{Environment.NewLine}Ist das so gewollt? Die Funktion der Anwendung wird dadurch nicht beeinträchtigt.");
+                    ApplicationWarning.ShowApplicationWarning($@"Das Paket [{cbChoosePackage.SelectedItem.ToString()}] stammt aus dem Repository [{svnUrlObject.StandardOutput?.Trim()}] und stimmt nicht mit dem Repository überein, welches in dieser Anwendung definiert wurde [{GlobalVariables.GetSvnArchiveUrl()}].{Environment.NewLine}Ist das so gewollt? Die Funktion der Anwendung wird dadurch nicht beeinträchtigt.");
                 }
             }
 
