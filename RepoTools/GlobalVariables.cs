@@ -43,11 +43,11 @@
             }
             else if (Test)
             {
-                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv-TEST";
+                SvnArchiveUrl = @"https://s7701170.sis-entw.dcsentw.de/svn/Archiv-TEST";
             }
             else
             {
-                SvnArchiveUrl = @"https://S7701170.sis-entw.dcsentw.de/svn/Archiv";
+                SvnArchiveUrl = @"https://s7701170.sis-entw.dcsentw.de/svn/Archiv";
             }
 
             return SvnArchiveUrl;
