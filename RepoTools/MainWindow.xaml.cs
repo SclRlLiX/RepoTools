@@ -25,6 +25,10 @@ namespace RepoTools
             {
                 this.Title = $@"{title} - TEST MODE";
             }
+            else
+            {
+                this.Title = title;
+            }
 
             //Open SvnCheckIn Control on default 
             CC.Content = new SvnCheckIn();

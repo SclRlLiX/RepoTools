@@ -328,7 +328,6 @@ namespace RepoTools.View.UserControls
                     Debug.WriteLine(svnProcessObject.StandardOutput);
                 }
             }
-
         }
 
         //cbChoosePackageVersion
@@ -352,39 +351,38 @@ namespace RepoTools.View.UserControls
 
                 //Add to mail on default 
                 cbxAddToMail.IsChecked = true;
-            }
-
             
-            if ((string)cbChooseOption.SelectedItem == option1)
-            {
-                //Check if JSON exists 
-                string jsonFilePath = $@"{GlobalVariables.GetSvnArchivePath()}\{cbChoosePackage.SelectedItem}\{cbChoosePackageVersion.SelectedItem}\{GlobalVariables.JsonFileName}";
-                if(File.Exists(jsonFilePath))
+                if ((string)cbChooseOption.SelectedItem == option1)
                 {
-                    string jsonString = File.ReadAllText(jsonFilePath);
-                    SvnCheckInObject? svnCheckInObject = JsonSerializer.Deserialize<SvnCheckInObject>(jsonString);
-                    if(svnCheckInObject != null)
+                    //Check if JSON exists 
+                    string jsonFilePath = $@"{GlobalVariables.GetSvnArchivePath()}\{cbChoosePackage.SelectedItem}\{cbChoosePackageVersion.SelectedItem}\{GlobalVariables.JsonFileName}";
+                    if(File.Exists(jsonFilePath))
                     {
-                        //Fill form fields
-                        cbxDcsEntw.IsChecked = svnCheckInObject.DcsEntw;
-                        cbxDcsTest.IsChecked = svnCheckInObject.DcsTest;
-                        cbxDcsProd.IsChecked = svnCheckInObject.DcsProd;
-                        cbxStvmv.IsChecked = svnCheckInObject.Stvmv;
-                        cbxSccm.IsChecked = svnCheckInObject.Sccm;
+                        string jsonString = File.ReadAllText(jsonFilePath);
+                        SvnCheckInObject? svnCheckInObject = JsonSerializer.Deserialize<SvnCheckInObject>(jsonString);
+                        if(svnCheckInObject != null)
+                        {
+                            //Fill form fields
+                            cbxDcsEntw.IsChecked = svnCheckInObject.DcsEntw;
+                            cbxDcsTest.IsChecked = svnCheckInObject.DcsTest;
+                            cbxDcsProd.IsChecked = svnCheckInObject.DcsProd;
+                            cbxStvmv.IsChecked = svnCheckInObject.Stvmv;
+                            cbxSccm.IsChecked = svnCheckInObject.Sccm;
 
-                        tbxOrderId.Text = svnCheckInObject.OrderId;
-                        tbxRemark.Text = svnCheckInObject.PackageDescription;
-                        tbxSoftwareVersion.Text = svnCheckInObject.SoftwareVersion;
+                            tbxOrderId.Text = svnCheckInObject.OrderId;
+                            tbxRemark.Text = svnCheckInObject.PackageDescription;
+                            tbxSoftwareVersion.Text = svnCheckInObject.SoftwareVersion;
+                        }
                     }
-                }
 
-                //For existing Package, check if repository URL matches that defined in this application 
-                string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + cbChoosePackage.SelectedItem.ToString();
-                string arguments = @"info --show-item repos-root-url";
-                SvnProcessObject svnUrlObject = SvnProcess.StartSvnProcess(workingDir, arguments);
-                if (svnUrlObject.StandardOutput?.Trim() != GlobalVariables.GetSvnArchiveUrl())
-                {
-                    ApplicationWarning.ShowApplicationWarning($@"Das Paket [{cbChoosePackage.SelectedItem.ToString()}] stammt aus dem Repository [{svnUrlObject.StandardOutput?.Trim()}] und stimmt nicht mit dem Repository überein, welches in dieser Anwendung definiert wurde [{GlobalVariables.GetSvnArchiveUrl()}].{Environment.NewLine}Ist das so gewollt? Die Funktion der Anwendung wird dadurch nicht beeinträchtigt.");
+                    //For existing Package, check if repository URL matches that defined in this application 
+                    string workingDir = GlobalVariables.GetSvnArchivePath() + @"\" + cbChoosePackage.SelectedItem.ToString();
+                    string arguments = @"info --show-item repos-root-url";
+                    SvnProcessObject svnUrlObject = SvnProcess.StartSvnProcess(workingDir, arguments);
+                    if (svnUrlObject.StandardOutput?.Trim() != GlobalVariables.GetSvnArchiveUrl())
+                    {
+                        ApplicationWarning.ShowApplicationWarning($@"Das Paket [{cbChoosePackage.SelectedItem.ToString()}] stammt aus dem Repository [{svnUrlObject.StandardOutput?.Trim()}] und stimmt nicht mit dem Repository überein, welches in dieser Anwendung definiert wurde [{GlobalVariables.GetSvnArchiveUrl()}].{Environment.NewLine}Ist das so gewollt? Die Funktion der Anwendung wird dadurch nicht beeinträchtigt.");
+                    }
                 }
             }
 
