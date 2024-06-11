@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.IO;
+using System.Reflection;
 
 namespace RepoTools
 {
@@ -14,18 +15,15 @@ namespace RepoTools
         public MainWindow()
         {
             InitializeComponent();
+            string title = $@"RepoTools {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion} - {GlobalVariables.GetSvnArchiveUrl()}";
 
             if (GlobalVariables.Debug)
             {
-                this.Title = $@"RepoTools - DEBUG MODE - {GlobalVariables.GetSvnArchiveUrl()}";
+                this.Title = $@"{title} - DEBUG MODE";
             }
             else if(GlobalVariables.Test)
             {
-                this.Title = $@"RepoTools - TEST MODE - {GlobalVariables.GetSvnArchiveUrl()}";
-            }
-            else
-            {
-                this.Title = $@"RepoTools - {GlobalVariables.GetSvnArchiveUrl()}";
+                this.Title = $@"{title} - TEST MODE";
             }
 
             //Open SvnCheckIn Control on default 
