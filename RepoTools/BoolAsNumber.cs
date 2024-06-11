@@ -10,7 +10,7 @@ namespace RepoTools
     {
         public static string GetBoolAsNumber(bool b)
         {
-            string digit = b ? "1" : digit = "0";
+            string digit = b ? "1" : "0";
             return digit;
         }
     }
