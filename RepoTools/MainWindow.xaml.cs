@@ -15,7 +15,20 @@ namespace RepoTools
         {
             InitializeComponent();
 
-            //Open SvnCheckIn Control as default 
+            if (GlobalVariables.Debug)
+            {
+                this.Title = $@"RepoTools - DEBUG MODE - {GlobalVariables.GetSvnArchiveUrl()}";
+            }
+            else if(GlobalVariables.Test)
+            {
+                this.Title = $@"RepoTools - TEST MODE - {GlobalVariables.GetSvnArchiveUrl()}";
+            }
+            else
+            {
+                this.Title = $@"RepoTools - {GlobalVariables.GetSvnArchiveUrl()}";
+            }
+
+            //Open SvnCheckIn Control on default 
             CC.Content = new SvnCheckIn();
             lblBtnCheckin.FontWeight = FontWeights.Bold;
             lblBtnCheckout.FontWeight = FontWeights.Regular;

@@ -3,7 +3,7 @@
     internal static class GlobalVariables
     {
         //Enable / Disable DEBUG Mode 
-        public static  bool Debug = true;
+        public static  bool Debug = false;
         public static bool Test = false;
 
         //Default text for empty Text Boxes 

@@ -22,6 +22,7 @@ namespace RepoTools
             {
                 string errorMessage = "Die Variable SvnArchivePath ist leer. \nDie Anwendung wird beendet.";
                 ApplicationError.ShowApplicationError(errorMessage);
+                Application.Current.Shutdown();
                 return;
             }
 
@@ -31,6 +32,7 @@ namespace RepoTools
             {
                 string errorMessage = "Der Ordner [" + SvnArchivePath + "] existiert nicht. \nDie Anwendung wird beendet.";
                 ApplicationError.ShowApplicationError(errorMessage);
+                Application.Current.Shutdown();
                 return;
             }
         }
