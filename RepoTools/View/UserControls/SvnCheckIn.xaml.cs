@@ -479,7 +479,7 @@ namespace RepoTools.View.UserControls
             */
 
             //Build commit string (set to flase if null) 
-            string commitMessage = $@"{svnCheckInObject.DcsEntw};{svnCheckInObject.DcsTest};{svnCheckInObject.DcsProd};{svnCheckInObject.Stvmv};{svnCheckInObject.Sccm};{svnCheckInObject.OrderId};{svnCheckInObject.PackageDescription};{svnCheckInObject.SoftwareVersion};{svnCheckInObject.RepoFolder};{svnCheckInObject.PackageName};{svnCheckInObject.PackageVersion}";
+            string commitMessage = $@"{BoolAsNumber.GetBoolAsNumber(svnCheckInObject.DcsEntw)};{BoolAsNumber.GetBoolAsNumber(svnCheckInObject.DcsTest)};{BoolAsNumber.GetBoolAsNumber(svnCheckInObject.DcsProd)};{BoolAsNumber.GetBoolAsNumber(svnCheckInObject.Stvmv)};{BoolAsNumber.GetBoolAsNumber(svnCheckInObject.Sccm)};{svnCheckInObject.OrderId};{svnCheckInObject.PackageDescription};{svnCheckInObject.SoftwareVersion};{svnCheckInObject.RepoFolder};{svnCheckInObject.PackageName};{svnCheckInObject.PackageVersion}";
             commitMessage = SanitizeText.GetSanitizedText(commitMessage);
 
             if (cbxAddToMail.IsChecked ?? false)
