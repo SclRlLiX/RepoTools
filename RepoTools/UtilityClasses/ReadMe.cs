@@ -10,22 +10,22 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal class ReadMe
     {
-        public SvnCheckInObject? SvnCheckInObject {  get; set; }
+        public SvnCheckInObject? SvnCheckInObject { get; set; }
         public string? PathToPackageVersion { get; set; }
 
         //Returns true on success
         public bool CreateAndSaveReadme()
         {
-            if(SvnCheckInObject == null)
+            if (SvnCheckInObject == null)
             {
                 ApplicationError.ShowApplicationError(@"Die Variable [SvnCheckInObject] ist null.");
-                return false; 
+                return false;
             }
-            if(String.IsNullOrEmpty(PathToPackageVersion))
+            if (string.IsNullOrEmpty(PathToPackageVersion))
             {
                 ApplicationError.ShowApplicationError(@"Die Variable [PathToPackageVersion] ist null.");
                 return false;
@@ -73,10 +73,10 @@ DCSENTW | DCSTEST | DCSPROD | STVMV | SCCM
             string readmeFileName = PathToPackageVersion + @"\readme.md";
             File.WriteAllText(readmeFileName, readme, Encoding.UTF8);
 
-            if(!(File.Exists(readmeFileName)))
+            if (!File.Exists(readmeFileName))
             {
                 ApplicationError.ShowApplicationError($@"Die Datei [{readmeFileName}] wurde nicht angelegt.");
-                return false; 
+                return false;
             }
 
             return true;
@@ -91,7 +91,7 @@ DCSENTW | DCSTEST | DCSPROD | STVMV | SCCM
                 ApplicationError.ShowApplicationError(@"Die Variable [SvnCheckInObject] ist null.");
                 return false;
             }
-            if (String.IsNullOrEmpty(PathToPackageVersion))
+            if (string.IsNullOrEmpty(PathToPackageVersion))
             {
                 ApplicationError.ShowApplicationError(@"Die Variable [PathToPackageVersion] ist null.");
                 return false;
@@ -106,10 +106,10 @@ DCSENTW | DCSTEST | DCSPROD | STVMV | SCCM
             string jsonString = JsonSerializer.Serialize(SvnCheckInObject, options);
 
             //save JSON to file 
-            string jsonFileName = PathToPackageVersion + @"\" + GlobalVariables.JsonFileName; 
+            string jsonFileName = PathToPackageVersion + @"\" + GlobalVariables.JsonFileName;
             File.WriteAllText(jsonFileName, jsonString, Encoding.UTF8);
 
-            if (!(File.Exists(jsonFileName)))
+            if (!File.Exists(jsonFileName))
             {
                 ApplicationError.ShowApplicationError($@"Die Datei [{jsonFileName}] wurde nicht angelegt.");
                 return false;

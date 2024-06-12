@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.IO;
 using System.Reflection;
+using RepoTools.UtilityClasses;
 
 namespace RepoTools
 {

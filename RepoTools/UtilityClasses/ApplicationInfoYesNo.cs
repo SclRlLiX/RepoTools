@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class ApplicationInfoYesNo
     {
         public static MessageBoxResult GetApplicationInfoYesNo(string InfoMessage)
         {
-            MessageBoxResult result =  MessageBox.Show(InfoMessage, "Information", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            MessageBoxResult result = MessageBox.Show(InfoMessage, "Information", MessageBoxButton.YesNo, MessageBoxImage.Information);
             return result;
         }
     }

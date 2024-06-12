@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class CopyFiles
     {
         public static bool StartCopyFiles(DirectoryInfo source, DirectoryInfo target)
         {
-            if (!(Directory.Exists(target.FullName)))
+            if (!Directory.Exists(target.FullName))
             {
                 Directory.CreateDirectory(target.FullName);
             }
@@ -27,7 +27,7 @@ namespace RepoTools
                 StartCopyFiles(sourceSubdirectory, targetSubdirectory);
             }
 
-            if(Directory.Exists(target.FullName))
+            if (Directory.Exists(target.FullName))
             {
                 return true;
             }

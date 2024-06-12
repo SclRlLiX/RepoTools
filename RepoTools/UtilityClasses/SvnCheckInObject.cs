@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal class SvnCheckInObject
     {
@@ -16,14 +16,14 @@ namespace RepoTools
         public bool DcsTest { get; set; }
         public bool DcsProd { get; set; }
         public bool Stvmv { get; set; }
-        public bool Sccm {  get; set; }
+        public bool Sccm { get; set; }
         public string? OrderId { get; set; } = GlobalVariables.EmptyTextboxText;
         public string? PackageDescription { get; set; }
         public string? SoftwareVersion { get; set; } = GlobalVariables.EmptyTextboxText;
         public bool? AddToMail { get; set; }
         public bool? ValidationError { get; set; } = false;
 
-        readonly public string? UserName  = Environment.UserName;
+        readonly public string? UserName = Environment.UserName;
 
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class CmdProcess
     {
@@ -34,7 +34,7 @@ namespace RepoTools
             string standardOutput = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
-            
+
             Debug.WriteLine("ErrorOutput:" + errorOutput);
             Debug.WriteLine("StandardOutput:" + standardOutput);
 

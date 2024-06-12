@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class SvnArchivFolderPackageVersions
     {
@@ -17,7 +17,7 @@ namespace RepoTools
         {
             ArrayList svnArchivFolderPackageVersions = [];
 
-            if (String.IsNullOrEmpty(packageName))
+            if (string.IsNullOrEmpty(packageName))
             {
                 return svnArchivFolderPackageVersions;
             }
@@ -26,7 +26,7 @@ namespace RepoTools
             string svnArchivePath = GlobalVariables.GetSvnArchivePath();
             string svnArchivePackagePath = svnArchivePath + @"\" + packageName;
 
-            if (!(Directory.Exists(svnArchivePackagePath)))
+            if (!Directory.Exists(svnArchivePackagePath))
             {
                 string warningMessage = "Der Ordner [" + svnArchivePackagePath + "] existiert nicht.";
                 ApplicationWarning.ShowApplicationWarning(warningMessage);
@@ -37,7 +37,7 @@ namespace RepoTools
 
             foreach (string packageVersion in packageVersions)
             {
-                    
+
                 //Only save Package Name and not full Path
                 string currentPackageVersion = packageVersion.Split("\\").Last();
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class ApplicationError
     {

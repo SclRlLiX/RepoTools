@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     static internal class SvnProcess
     {
@@ -43,12 +43,12 @@ namespace RepoTools
             svnProcessObject.ErrorOutput = errorOutput;
             svnProcessObject.ExitCode = process.ExitCode;
 
-            if(svnProcessObject.ExitCode != 0)
+            if (svnProcessObject.ExitCode != 0)
             {
-                string errorMessage = 
+                string errorMessage =
 $@"Der SVN Befehl [{Arguments}] konnte nicht ausgeführt werden. Der Befehl wurde im Verzeichnis [{WorkingDirectory}] ausgeführt. {Environment.NewLine}
 ExitCode: {svnProcessObject.ExitCode} {Environment.NewLine}
-ErrorOutput: {svnProcessObject.ErrorOutput}" ;
+ErrorOutput: {svnProcessObject.ErrorOutput}";
                 ApplicationError.ShowApplicationError(errorMessage);
             }
 

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class ApplicationWarning
     {
-        public static void ShowApplicationWarning(string WarningMessage) 
+        public static void ShowApplicationWarning(string WarningMessage)
         {
             MessageBox.Show(WarningMessage, "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;

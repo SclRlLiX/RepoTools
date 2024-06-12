@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace RepoTools
+namespace RepoTools.UtilityClasses
 {
     internal static class SvnArchivFolderPackages
     {
@@ -12,7 +12,7 @@ namespace RepoTools
             ArrayList packageFoldersWithSvnFolder = [];
 
             string svnArchivePath = GlobalVariables.GetSvnArchivePath();
-                
+
             string[] packageFolders = Directory.GetDirectories(svnArchivePath);
 
             foreach (string svnFolder in packageFolders)
@@ -39,11 +39,11 @@ namespace RepoTools
 
             foreach (string svnFolder in packageFolders)
             {
-                if (!(Directory.Exists(svnFolder + @"\.svn")))
+                if (!Directory.Exists(svnFolder + @"\.svn"))
                 {
                     Debug.WriteLine(svnFolder);
                     //skip .svn folder
-                    if(svnFolder.Split("\\").Last() == ".svn")
+                    if (svnFolder.Split("\\").Last() == ".svn")
                     {
                         continue;
                     }
