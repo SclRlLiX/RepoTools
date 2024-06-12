@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
 
 namespace RepoTools
 {
@@ -10,6 +12,8 @@ namespace RepoTools
         public Patches()
         {
             InitializeComponent();
+
+            tbxCurrentVersion.Text = $@"Aktuelle Version { FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}";
         }
     }
 }

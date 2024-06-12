@@ -1,4 +1,6 @@
-﻿namespace RepoTools
+﻿using System.Diagnostics;
+
+namespace RepoTools
 {
     internal static class GlobalVariables
     {
@@ -51,6 +53,21 @@
             }
 
             return SvnArchiveUrl;
+        }
+
+        public static string GetDriveO()
+        {
+            string DriveO;
+            if (Debug)
+            {
+                DriveO = @"C:\LW_O";
+            }
+            else
+            {
+                DriveO = @"\\tsclient\o";
+            }
+
+            return DriveO;
         }
 
         public static string GetTutorialPathUrl()

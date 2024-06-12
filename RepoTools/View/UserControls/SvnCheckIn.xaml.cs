@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualBasic;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -545,6 +546,29 @@ namespace RepoTools.View.UserControls
                     string errorMessage = $@"Das Aktualisieren des Pakets [{svnCheckInObject.PackageName}] im Repository ist fehlgeschlagen.";
                     ApplicationError.ShowApplicationError(errorMessage);
                     return;
+                }
+            }
+
+            if(svnCheckInObject.Sccm)
+            {
+                string driveOMessage =
+                $@"SCCM wurde als Umgebung angegeben, soll das Paket [{svnCheckInObject.PackageName} {svnCheckInObject.PackageVersion}] ins Laufwek O kopiert werden?";
+                MessageBoxResult driveOResult = ApplicationInfoYesNo.GetApplicationInfoYesNo(driveOMessage);
+
+                if (driveOResult == MessageBoxResult.Yes)
+                {
+                    //Create Package Folder inside drive O 
+                    var sourceDirectoryInfo = new DirectoryInfo($@"{GlobalVariables.GetSvnArchivePath()}\{svnCheckInObject.PackageName}\{svnCheckInObject.PackageVersion}");
+                    var targetDirectoryInfo = new DirectoryInfo($@"{GlobalVariables.GetDriveO()}\{svnCheckInObject.PackageName}\{svnCheckInObject.PackageVersion}");
+
+                    if(CopyFiles.StartCopyFiles(sourceDirectoryInfo,targetDirectoryInfo))
+                    {
+                        ApplicationSuccess.ShowApplicationSuccess($@"Das Paket {svnCheckInObject.PackageName} {svnCheckInObject.PackageVersion} wurde erfolgreich ins Laufwerk O kopiert.");
+                    }
+                    else
+                    {
+                        ApplicationWarning.ShowApplicationWarning($@"Das Paket {svnCheckInObject.PackageName} {svnCheckInObject.PackageVersion} konnte nicht ins Laufwerk O kopiert werden. Das Paket muss manuell kopiert werden.");
+                    }
                 }
             }
 

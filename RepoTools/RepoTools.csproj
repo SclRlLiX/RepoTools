@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <StartupObject>RepoTools.App</StartupObject>
     <ApplicationIcon>tortoise_rg.ico</ApplicationIcon>
-    <FileVersion>1.0.0.0</FileVersion>
+    <FileVersion>1.0.0.1</FileVersion>
 	<Copyright>©2024 Georg@Dataport </Copyright>
   </PropertyGroup>
 

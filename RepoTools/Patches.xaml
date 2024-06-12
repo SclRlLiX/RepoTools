@@ -16,11 +16,17 @@
        
 
         <StackPanel Margin="20,0,0,0" Grid.Row="0" VerticalAlignment="Center">
-            <TextBlock Text="Aktuelle Version: 1.0.0.0"  Style="{StaticResource TextBlockH1}" />
+            <TextBlock x:Name="tbxCurrentVersion" Text="Aktuelle Version: 1.0.0.0"  Style="{StaticResource TextBlockH1}" />
         </StackPanel>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"  Grid.Row="1">
             <StackPanel>
+                <!--V 1001-->
+                <StackPanel  Margin="20,10,0,0">
+                    <TextBlock Text="V 1.0.0.1"  Style="{StaticResource TextBlockH2}"/>
+                    <TextBlock Text="- SCCM Pakete können ins LW O kopiert werden" Style="{StaticResource TextBlockText}"/>
+                </StackPanel>
+                
                 <!--V 1000-->
                 <StackPanel  Margin="20,10,0,0">
                     <TextBlock Text="V 1.0.0.0"  Style="{StaticResource TextBlockH2}"/>
