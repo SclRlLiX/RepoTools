@@ -167,7 +167,7 @@ namespace RepoTools.View.UserControls
             }
             else
             {
-                lblChoosePackageVersion.Content = "Ordner Paketversion:";
+                lblChoosePackageVersion.Content = "Paketversion wählen:";
                 lblChoosePackageVersion.Foreground = Brushes.Black;
 
                 svnCheckInObject.PackageVersion = cbChoosePackageVersion.Text.ToString();
