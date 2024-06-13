@@ -76,6 +76,16 @@ namespace RepoTools.View.UserControls
             lblChoosePackageVersion.Foreground = Brushes.Black;
             cbChoosePackageVersion.ItemsSource = null;
 
+            //Reset OrderId field
+            lblOrderId.Content = "Auftragsnummer / INC";
+            lblOrderId.Foreground = Brushes.Black;
+            tbxOrderId.Text = "";
+
+            //Reset Remark field
+            lblRemark.Content = "Bemerkung";
+            lblRemark.Foreground = Brushes.Black;
+            tbxRemark.Text = "";
+
             //Reset other Fields
             cbxDcsEntw.IsChecked = true; 
             cbxDcsTest.IsChecked = false;
@@ -83,8 +93,7 @@ namespace RepoTools.View.UserControls
             cbxStvmv.IsChecked = false;
             cbxSccm.IsChecked = false;
 
-            tbxOrderId.Text = "";
-            tbxRemark.Text = "";
+            
             tbxSoftwareVersion.Text = "";
             cbxAddToMail.IsChecked = false;
         }
@@ -410,6 +419,10 @@ namespace RepoTools.View.UserControls
             *  VALIDATION  
             */
             SvnCheckInObject svnCheckInObject = GetAndValidateData();
+            if(svnCheckInObject.ValidationError ?? false)
+            {
+                return;
+            }
 
             //Check if Path to Package Version exists
             string pathToCurrentPackageVersion = GlobalVariables.GetSvnArchivePath() + @"\" + svnCheckInObject.PackageName + @"\" + svnCheckInObject.PackageVersion;
