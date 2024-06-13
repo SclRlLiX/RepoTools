@@ -92,6 +92,7 @@ namespace RepoTools.View.UserControls
             cbxDcsProd.IsChecked = false;
             cbxStvmv.IsChecked = false;
             cbxSccm.IsChecked = false;
+            cbxNoOrderId.IsChecked = false;
 
             
             tbxSoftwareVersion.Text = "";
