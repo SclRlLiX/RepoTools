@@ -27,7 +27,7 @@ namespace RepoTools.View.UserControls
             ProcessStartInfo processStartInfo = new ProcessStartInfo();
             processStartInfo.FileName = "TortoiseProc.exe";
             processStartInfo.WorkingDirectory = @"C:\Program Files\TortoiseSVN\bin";
-            processStartInfo.Arguments = $@"c\ /command:checkout /path:""C:\SVN-Archiv"" ";
+            processStartInfo.Arguments = $@"c\ /command:checkout /path:""C:\SVN-Archiv\"" ";
             processStartInfo.UseShellExecute = false;
             processStartInfo.CreateNoWindow = true;
 
