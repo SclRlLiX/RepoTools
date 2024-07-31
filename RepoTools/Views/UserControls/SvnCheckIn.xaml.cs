@@ -42,7 +42,6 @@ namespace RepoTools.View.UserControls
             string[] options = [option1, option2];
             cbChooseOption.ItemsSource = options;
 
-
             // Disable all other fields
             cbChooseFolder.IsEnabled = false;
             cbChoosePackage.IsEnabled = false;
